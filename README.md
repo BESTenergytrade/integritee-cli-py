@@ -11,3 +11,10 @@ To install the lib to your current python environment use:
 ```
 maturin develop
 ```
+
+## Troubleshooting
+
+* **wasmtime**: error[E0463]: can't find crate for `std`
+```
+rustup target add --toolchain nightly wasm32-unknown-unknown
+```
