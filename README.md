@@ -8,7 +8,7 @@ The submodules have to be initialized and updated before building:
 git submodule update --init --recursive
 ```
 
-Install integritee_cli_py as lip into virtual environment:
+Install `integritee_cli_py` as lip into virtual environment:
 ```
 python -m venv venv/
 pip install maturin
@@ -17,6 +17,11 @@ pip install maturin
 To install the lib to your current python environment use:
 ```
 maturin develop
+```
+
+Test import and execution of `integritee_cli_py` in python:
+```
+python run_integritee_cli.py
 ```
 
 ## Troubleshooting
