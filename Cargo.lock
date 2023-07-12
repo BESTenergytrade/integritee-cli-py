@@ -2492,7 +2492,7 @@ dependencies = [
 name = "integritee_cli_py"
 version = "0.0.1"
 dependencies = [
- "clap 4.3.11",
+ "clap 3.2.25",
  "integritee-cli",
  "maturin",
  "pyo3",
