@@ -49,6 +49,8 @@ fn new_trusted_account_cmd() -> Commands {
     })
 }
 
+// just a skeleton to see if the cli understands it. It will never return a successful result.
+// We need to fill in some actual meaningful values.
 fn pay_as_bid_cmd() -> Commands {
     Commands::Trusted(TrustedCli{
         // random mrenclave, has to be replaced with one that has been fetched from the chain.
