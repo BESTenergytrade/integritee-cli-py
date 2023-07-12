@@ -6,6 +6,8 @@ edition = "2018"
 [dependencies]
 pyo3 = { version = "0.15", features = ["extension-module"] }
 integritee-cli = { path = "./shared/BEST-Energy/cli" }
+# if `Cli::Parse` should be used, the major version needs to match the
+# BEST-Energy workers CLI otherwise it can't match the traits.
 clap = { version = "3.1.6" }
 # FIX: force correct features for this dep
 sgx_crypto_helper = { branch = "master", git = "https://github.com/apache/teaclave-sgx-sdk.git", features = ["crypto_direct"] }
