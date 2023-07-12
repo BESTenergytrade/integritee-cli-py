@@ -44,7 +44,7 @@ fn new_trusted_account_cmd() -> Commands {
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
         xt_signer: "//Alice".to_string(),
-        direct: false,
+        direct: true,
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::NewAccount),
     })
 }
@@ -59,7 +59,7 @@ fn pay_as_bid_cmd() -> Commands {
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
         xt_signer: "//Alice".to_string(),
-        direct: false,
+        direct: true,
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::PayAsBid(PayAsBidCommand {
             account: "//Alice".to_string(),
             orders_string: "".to_string(),
