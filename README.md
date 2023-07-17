@@ -11,6 +11,10 @@ git submodule update --init --recursive
 Install `integritee_cli_py` as lip into virtual environment:
 ```
 python -m venv venv/
+source venv/bin/activate
+```
+
+```
 pip install maturin
 ```
 
