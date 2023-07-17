@@ -22,6 +22,8 @@ To install the lib to your current python environment use:
 ```
 maturin develop
 ```
+In order to use the features, the nightly version of the compiler has
+to be setup beforehand: `rustup override set nightly`
 
 Test import and execution of `integritee_cli_py` in python:
 ```
