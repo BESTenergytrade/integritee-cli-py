@@ -1,0 +1,9 @@
+
+# build outputs
+**/target/**
+
+# virtual env
+venv/**
+
+# user data
+my_keystore/**
