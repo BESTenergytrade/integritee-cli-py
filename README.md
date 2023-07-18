@@ -12,6 +12,8 @@ Install `integritee_cli_py` as lip into virtual environment:
 ```
 python -m venv venv/
 source venv/bin/activate
+# unset conda_prefix - if existing - for maturin to work
+conda deactivate
 ```
 
 ```
