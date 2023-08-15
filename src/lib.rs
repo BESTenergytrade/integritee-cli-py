@@ -16,13 +16,14 @@ fn integritee_cli_py(_py: Python, m: &PyModule) -> PyResult<()> {
     Ok(())
 }
 
-fn find_command(command_name: &str) -> Commands {
+fn find_command(command_name: &str, params: &[String]) -> Commands {
     match command_name {
         "new_account_cmd" => new_account_cmd(),
-        "pay_as_bid_cmd" => pay_as_bid_cmd(),
-        "get_market_results_cmd" => get_market_results_cmd(),
-        "pay_as_bid_proof_cmd" => pay_as_bid_proof_cmd(),
-        "verify_proof_cmd" => verify_proof_cmd(),
+        "new_trusted_account_cmd" => new_trusted_account_cmd(&params),
+        "pay_as_bid_cmd" => pay_as_bid_cmd(&params),
+        "get_market_results_cmd" => get_market_results_cmd(&params),
+        "pay_as_bid_proof_cmd" => pay_as_bid_proof_cmd(&params),
+        "verify_proof_cmd" => verify_proof_cmd(&params),
         _ => panic!("Invalid command name"),
     }
 }
@@ -34,13 +35,24 @@ fn run_cli(
     worker_url: String,
     trusted_worker_port: String,
     command_name: String,
+    params: Vec<String>,
 ) -> PyResult<()> {
     let cli = Cli {
         node_url,
         node_port,
         worker_url,
         trusted_worker_port,
-        command: find_command(&command_name),
+        command: find_command(&command_name, &params),
+    };
+
+    match command_name.as_str() {
+        "new_account_cmd" => new_account_cmd(),
+        "new_trusted_account_cmd" => new_trusted_account_cmd(&params),
+        "pay_as_bid_cmd" => pay_as_bid_cmd(&params),
+        "get_market_results_cmd" => get_market_results_cmd(&params),
+        "pay_as_bid_proof_cmd" => pay_as_bid_proof_cmd(&params),
+        "verify_proof_cmd" => verify_proof_cmd(&params),
+        _ => panic!("Invalid command name"),
     };
 
     commands::match_command(&cli).unwrap();
@@ -53,10 +65,11 @@ fn new_account_cmd() -> Commands {
 }
 
 /// Create a new trusted account in the enclave.
-fn new_trusted_account_cmd() -> Commands {
+fn new_trusted_account_cmd(params: &[String]) -> Commands {
+    let mrenclave = &params[0];
     Commands::Trusted(TrustedCli {
         // random mrenclave, has to be replaced with one that has been fetched from the chain.
-        mrenclave: "Az1EL1mXZokRKKaBkmhcKiQXYZk3Q24C9nw8TiNnpwTL".to_string(),
+        mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
@@ -68,10 +81,13 @@ fn new_trusted_account_cmd() -> Commands {
 
 // just a skeleton to see if the cli understands it. It will never return a successful result.
 // We need to fill in some actual meaningful values.
-fn pay_as_bid_cmd() -> Commands {
+fn pay_as_bid_cmd(params: &[String]) -> Commands {
+    let mrenclave = &params[0];
+    //let account = &params[1];
+    let orders_string = &params[1];
     Commands::Trusted(TrustedCli {
         // random mrenclave, has to be replaced with one that has been fetched from the chain.
-        mrenclave: "Az1EL1mXZokRKKaBkmhcKiQXYZk3Q24C9nw8TiNnpwTL".to_string(),
+        mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
@@ -79,15 +95,17 @@ fn pay_as_bid_cmd() -> Commands {
         direct: true,
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::PayAsBid(PayAsBidCommand {
             account: "//Alice".to_string(),
-            orders_string:"[{\"id\":0,\"order_type\":\"ask\",\"time_slot\":\"2022-03-04T05:06:07+00:00\",\"actor_id\":\"actor_0\",\"cluster_index\":0,\"energy_kwh\":5,\"price_euro_per_kwh\":0.19},{\"id\":1,\"order_type\":\"bid\",\"time_slot\":\"2022-03-04T05:06:07+00:00\",\"actor_id\":\"actor_1\",\"cluster_index\":0,\"energy_kwh\":8.8,\"price_euro_per_kwh\":0.23}]".to_string(),
+            orders_string: orders_string.to_string(),
         })),
     })
 }
 
-fn get_market_results_cmd() -> Commands {
+fn get_market_results_cmd(params: &[String]) -> Commands {
+    let mrenclave = &params[0];
+    let timestamp = &params[1];
     Commands::Trusted(TrustedCli {
         // random mrenclave, has to be replaced with one that has been fetched from the chain.
-        mrenclave: "Az1EL1mXZokRKKaBkmhcKiQXYZk3Q24C9nw8TiNnpwTL".to_string(),
+        mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
@@ -96,16 +114,19 @@ fn get_market_results_cmd() -> Commands {
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::GetMarketResults(
             GetMarketResultsCommand {
                 account: "//Alice".to_string(),
-                timestamp: "2022-03-04T05:06:07+00:00".to_string(),
+                timestamp: timestamp.to_string(),
             },
         )),
     })
 }
 
-fn pay_as_bid_proof_cmd() -> Commands {
+fn pay_as_bid_proof_cmd(params: &[String]) -> Commands {
+    let mrenclave = &params[0];
+    let timestamp = &params[1];
+    let actor_id = &params[2];
     Commands::Trusted(TrustedCli {
         // random mrenclave, has to be replaced with one that has been fetched from the chain.
-        mrenclave: "9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE".to_string(),
+        mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
@@ -114,24 +135,25 @@ fn pay_as_bid_proof_cmd() -> Commands {
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::PayAsBidProof(
             PayAsBidProofCommand {
                 account: "//Alice".to_string(),
-                timestamp: "2022-03-04T05:06:07+00:00".to_string(),
-                actor_id: "actor_0".to_string(),
+                timestamp: timestamp.to_string(),
+                actor_id: actor_id.to_string(),
             },
         )),
     })
 }
 
-fn verify_proof_cmd() -> Commands {
+fn verify_proof_cmd(params: &[String]) -> Commands {
+    let mrenclave = &params[0];
+    let merkle_proof_json = &params[1];
     Commands::Trusted(TrustedCli {
-        // random mrenclave, has to be replaced with one that has been fetched from the chain.
-        mrenclave: "9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE".to_string(),
+        mrenclave: mrenclave.to_string(),
         shard: None,
-        // signers and accounts starting with `//` will be recognized as dev-seeds and can
-        // always be used without first creating them in the keystore.
         xt_signer: "//Alice".to_string(),
         direct: true,
-        command: TrustedCommand::BaseTrusted(TrustedBaseCommand::VerifyProof(VerifyMerkleProofCommand {
-            merkle_proof_json: "{\"root\":\"0x674b938e15b718ab5831dd027948e6252df15e0cde89072279ceb0633795e457\",\"proof\":[\"0x99aad8dbdf1379081361390b6bd491cbb8cc29d5406288d3665beab2b00b6d70\"],\"number_of_leaves\":2,\"leaf_index\":0,\"leaf\":[0,0,0,0,0,0,0,0,1,100,50,48,50,50,45,48,51,45,48,52,84,48,53,58,48,54,58,48,55,43,48,48,58,48,48,28,97,99,116,111,114,95,48,1,0,0,0,0,0,0,0,0,0,0,20,64,82,184,30,133,235,81,200,63]}".to_string(),
-        })),
+        command: TrustedCommand::BaseTrusted(TrustedBaseCommand::VerifyProof(
+            VerifyMerkleProofCommand {
+                merkle_proof_json: merkle_proof_json.to_string(),
+            },
+        )),
     })
 }
