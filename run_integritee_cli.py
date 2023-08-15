@@ -1,11 +1,33 @@
+import argparse
 import integritee_cli_py
 
-node_url = "ws://127.0.0.1"
-node_port = "9944"
-worker_url = "wss://127.0.0.1"
-trusted_worker_port = "2000"
-
 if __name__ == "__main__":
-    integritee_cli_py.run_cli(node_url, node_port, worker_url, trusted_worker_port, "balanced")
-    print("TERMINATE")
+    parser = argparse.ArgumentParser(description="Run Rust CLI with different commands")
+    parser.add_argument(
+        "--command",
+        type=str,
+        required=True,
+        choices=[
+            "new_account_cmd",
+            "pay_as_bid_cmd",
+            "get_market_results_cmd",
+            "pay_as_bid_proof_cmd",
+            "verify_proof_cmd",
+        ],
+        help="Specify the command to run",
+    )
 
+    args = parser.parse_args()
+
+    node_url = "ws://127.0.0.1"
+    node_port = "9944"
+    worker_url = "wss://127.0.0.1"
+    trusted_worker_port = "2000"
+
+    try:
+        command_name = args.command
+        integritee_cli_py.run_cli(
+            node_url, node_port, worker_url, trusted_worker_port, command_name
+        )
+    except Exception as e:
+        print("Encountered an error:", e)
