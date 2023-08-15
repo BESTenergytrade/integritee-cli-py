@@ -21,7 +21,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--params",
         nargs="+",  # Allows multiple arguments for params
-        required=True,  # Make the params argument required
+        default=[],
         help="Parameters for the command",
     )
 
