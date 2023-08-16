@@ -3,36 +3,30 @@ import sys
 import integritee_cli_py
 
 # Mapping commands to their required parameter names
-COMMAND_PARAMETER_NAMES = {
-    "new_account_cmd": [],
-    "new_trusted_account_cmd": [
-        "mrenclave",
-    ],
-    "pay_as_bid_cmd": ["mrenclave", "orders_string"],
-    "get_market_results_cmd": ["mrenclave", "timestamp"],
-    "pay_as_bid_proof_cmd": ["mrenclave", "timestamp", "actor_id"],
-    "verify_proof_cmd": ["verify_proof_cmd", "merkle_proof_json"],
+COMMAND_PARAMETER_INFO = {
+    "new_account_cmd": ([], 0),
+    "new_trusted_account_cmd": (
+        [
+            "mrenclave",
+        ],
+        1,
+    ),
+    "pay_as_bid_cmd": (["mrenclave", "orders_string"], 2),
+    "get_market_results_cmd": (["mrenclave", "timestamp"], 2),
+    "pay_as_bid_proof_cmd": (["mrenclave", "account", "timestamp", "actor_id"], 4),
+    "verify_proof_cmd": (["verify_proof_cmd", "merkle_proof_json"], 2),
 }
 
 
-def display_help(parser, error_message=None):
-    if error_message:
-        print(error_message)
-    parser.print_help()
-    sys.exit(1)
-
-
-def validate_required_params(command, params):
-    required_parameter_names = COMMAND_PARAMETER_NAMES.get(command, [])
-    missing_parameter_names = [
-        param_name
-        for param_name in required_parameter_names
-        if param_name not in params
-    ]
-    if missing_parameter_names:
-        missing_params_str = ", ".join(missing_parameter_names)
-        error_message = f"Parameters ({missing_params_str}) are required for the '{command}' command"
-        raise argparse.ArgumentError(None, error_message)
+def validate_parameters(command, params):
+    required_params, required_count = COMMAND_PARAMETER_INFO.get(command, ([], 0))
+    if len(params) != required_count:
+        missing_params = required_count - len(params)
+        param_names = ", ".join(required_params)
+        raise argparse.ArgumentError(
+            None,
+            f"{command} requires {missing_params} more parameter(s): {param_names}",
+        )
 
 
 if __name__ == "__main__":
@@ -40,14 +34,13 @@ if __name__ == "__main__":
     parser.add_argument(
         "--command",
         type=str,
-        required=True,
-        choices=COMMAND_PARAMETER_NAMES.keys(),
+        choices=COMMAND_PARAMETER_INFO.keys(),
         help="Please specify the command to run",
     )
 
     parser.add_argument(
         "--params",
-        nargs="+",  # Allows multiple arguments for params
+        nargs="+",
         default=[],
         help="Parameters for the command",
     )
@@ -55,12 +48,16 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     if not args.command:
-        display_help(parser, "error: the following arguments are required: --command")
+        parser.print_help()
+        sys.exit(1)
 
     try:
-        validate_required_params(args.command, args.params)
+        validate_parameters(args.command, args.params)
+
     except argparse.ArgumentError as e:
-        display_help(parser, str(e))
+        print(str(e))
+        parser.print_help()
+        sys.exit(1)
 
     node_url = "ws://127.0.0.1"
     node_port = "9944"
