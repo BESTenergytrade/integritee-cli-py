@@ -83,18 +83,18 @@ fn new_trusted_account_cmd(params: &[String]) -> Commands {
 // We need to fill in some actual meaningful values.
 fn pay_as_bid_cmd(params: &[String]) -> Commands {
     let mrenclave = &params[0];
-    //let account = &params[1];
-    let orders_string = &params[1];
+    let account = &params[1];
+    let orders_string = &params[2];
     Commands::Trusted(TrustedCli {
         // random mrenclave, has to be replaced with one that has been fetched from the chain.
         mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
-        xt_signer: "//Alice".to_string(),
+        xt_signer: account.to_string(),
         direct: true,
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::PayAsBid(PayAsBidCommand {
-            account: "//Alice".to_string(),
+            account: account.to_string(),
             orders_string: orders_string.to_string(),
         })),
     })
@@ -102,18 +102,19 @@ fn pay_as_bid_cmd(params: &[String]) -> Commands {
 
 fn get_market_results_cmd(params: &[String]) -> Commands {
     let mrenclave = &params[0];
-    let timestamp = &params[1];
+    let account = &params[1];
+    let timestamp = &params[2];
     Commands::Trusted(TrustedCli {
         // random mrenclave, has to be replaced with one that has been fetched from the chain.
         mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
-        xt_signer: "//Alice".to_string(),
+        xt_signer: account.to_string(),
         direct: true,
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::GetMarketResults(
             GetMarketResultsCommand {
-                account: "//Alice".to_string(),
+                account: account.to_string(),
                 timestamp: timestamp.to_string(),
             },
         )),
@@ -145,11 +146,12 @@ fn pay_as_bid_proof_cmd(params: &[String]) -> Commands {
 
 fn verify_proof_cmd(params: &[String]) -> Commands {
     let mrenclave = &params[0];
-    let merkle_proof_json = &params[1];
+    let account = &params[1];
+    let merkle_proof_json = &params[2];
     Commands::Trusted(TrustedCli {
         mrenclave: mrenclave.to_string(),
         shard: None,
-        xt_signer: "//Alice".to_string(),
+        xt_signer: account.to_string(),
         direct: true,
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::VerifyProof(
             VerifyMerkleProofCommand {
