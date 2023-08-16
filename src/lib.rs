@@ -122,19 +122,20 @@ fn get_market_results_cmd(params: &[String]) -> Commands {
 
 fn pay_as_bid_proof_cmd(params: &[String]) -> Commands {
     let mrenclave = &params[0];
-    let timestamp = &params[1];
-    let actor_id = &params[2];
+    let account = &params[1];
+    let timestamp = &params[2];
+    let actor_id = &params[3];
     Commands::Trusted(TrustedCli {
         // random mrenclave, has to be replaced with one that has been fetched from the chain.
         mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
-        xt_signer: "//Alice".to_string(),
+        xt_signer: account.to_string(),
         direct: true,
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::PayAsBidProof(
             PayAsBidProofCommand {
-                account: "//Alice".to_string(),
+                account: account.to_string(),
                 timestamp: timestamp.to_string(),
                 actor_id: actor_id.to_string(),
             },
