@@ -14,7 +14,7 @@ COMMAND_PARAMETER_INFO = {
     "pay_as_bid_cmd": (["mrenclave", "account", "orders_string"], 3),
     "get_market_results_cmd": (["mrenclave", "account", "timestamp"], 3),
     "pay_as_bid_proof_cmd": (["mrenclave", "account", "timestamp", "actor_id"], 4),
-    "verify_proof_cmd": (["verify_proof_cmd", "account", "merkle_proof_json"], 3),
+    "verify_proof_cmd": (["mrenclave", "account", "merkle_proof_json"], 3),
 }
 
 
