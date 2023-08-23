@@ -1,6 +1,18 @@
+import os
+from dotenv import load_dotenv
 import argparse
 import sys
 import integritee_cli_py
+
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Access environment variables
+NODE_URL = os.getenv("NODE_URL")
+NODE_PORT = os.getenv("NODE_PORT")
+WORKER_URL = os.getenv("WORKER_URL")
+TRUSTED_WORKER_PORT = os.getenv("TRUSTED_WORKER_PORT")
 
 # Mapping commands to their required parameter names
 COMMAND_PARAMETER_INFO = {
@@ -59,16 +71,11 @@ if __name__ == "__main__":
         parser.print_help()
         sys.exit(1)
 
-    node_url = "ws://127.0.0.1"
-    node_port = "9944"
-    worker_url = "wss://127.0.0.1"
-    trusted_worker_port = "2000"
-
     try:
         command_name = args.command
         params = args.params
         integritee_cli_py.run_cli(
-            node_url, node_port, worker_url, trusted_worker_port, command_name, params
+            NODE_URL, NODE_PORT, WORKER_URL, TRUSTED_WORKER_PORT, command_name, params
         )
     except Exception as e:
         print("Encountered an error:", e)

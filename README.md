@@ -39,6 +39,22 @@ python run_integritee_cli.py
 rustup target add --toolchain nightly wasm32-unknown-unknown
 ```
 
+## Using Environment Variables 
+
+Please follow these steps to set up and use environment variables:
+
+1. Copy the `.env.example` file and rename it to `.env`:
+
+```bash
+$ cp .env.example .env
+```
+
+2. Open the `.env` file and provide values for the environment variables.
+3. Install the necessary dependencies by running:
+
+```bash
+$ pip install -r requirements.txt
+```
 
 ## Run the Client
 
