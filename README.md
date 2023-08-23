@@ -12,9 +12,9 @@ Use `Pyo3` Lib to wrap the `integritee-cli` into a Python lib.
 
 ## Getting Started
 
-Get started with the project setup and initial configuration.
+Get started with the setup of the client module.
 
-- **Prerequisites**
+**Prerequisites**
 
 In order to use the features, the nightly version of the compiler has
 to be setup beforehand:
@@ -94,13 +94,13 @@ $ pip install -r requirements.txt
 
 ### Get help
 
-Syntax:
+- Syntax:
 
 ```bash
 $ python3 run_integritee_cli.py --help
 ```
 
-Output:
+- Output:
 
 ```bash
 
@@ -120,71 +120,71 @@ options:
 
 The `integritee-cli-py` provides the following CLI commands:
 
-- **Create a new account:**
+**Create a new account:**
 
-Syntax:
+- Syntax:
 
 ```bash
 $ python3 run_integritee_cli.py --command new_account_cmd
 ```
 
-- **Create a new trusted account:**
+**Create a new trusted account:**
 
-Syntax:
+- Syntax:
 
 ```bash
 $ python3 run_integritee_cli.py --command new_trusted_account_cmd --params <MRENCLAVE>
 ```
 
-- **Pay As Bid:**
+**Pay As Bid:**
 
-Syntax:
+- Syntax:
 ```bash
 $ python3 run_integritee_cli.py --command pay_as_bid_cmd --params <MRENCLAVE> <ACCOUNT> <ORDERS_STRING>
 ```
 
-Example:
+- Example:
 ```bash
 $ python3 run_integritee_cli.py --command pay_as_bid_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY "[{\"id\":0,\"order_type\":\"ask\",\"time_slot\":\"2022-10-04T05:06:07+00:00\",\"actor_id\":\"actor_0\",\"cluster_index\":0,\"energy_kwh\":5,\"price_euro_per_kwh\":0.19},{\"id\":1,\"order_type\":\"bid\",\"time_slot\":\"2022-10-04T05:06:07+00:00\",\"actor_id\":\"actor_1\",\"cluster_index\":0,\"energy_kwh\":8.8,\"price_euro_per_kwh\":0.23}]"
 ```
 
-- **Get Market Results:**
+**Get Market Results:**
 
-Syntax:
+- Syntax:
 
 ```bash
 $ python3 run_integritee_cli.py --command get_market_results_cmd --params <MRENCLAVE> <ACCOUNT> <TIMESTAMP>
 ```
 
-Example:
+- Example:
 
 ```bash
 $ python3 run_integritee_cli.py --command get_market_results_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY 2022-10-04T05:06:07+00:00
 ```
 
-- **Get Bid Proof:**
+**Get Bid Proof:**
 
-Syntax:
+- Syntax:
 
 ```bash
 $ python3 run_integritee_cli.py --command pay_as_bid_proof_cmd --params <MRENCLAVE> <ACCOUNT> <TIMESTAMP> <ACTOR_ID>
 ```
 
-Example:
+- Example:
 
 ```bash
 $ python3 run_integritee_cli.py --command pay_as_bid_proof_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY 2022-10-04T05:06:07+00:00 actor_0
 ```
 
-- **Verify Proof:**
+**Verify Proof:**
 
-Syntax:
+- Syntax:
 
 ```bash
 $ python3 run_integritee_cli.py --command verify_proof_cmd --params <MRENCLAVE> <ACCOUNT> <MERKLE_PROOF_JSON>
 ```
 
-Example:
+- Example:
 
 ```bash
 python3 run_integritee_cli.py --command verify_proof_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY "{\"root\":\"0xeae9131721b25db95622605c99a62f56f2e3b47e7f54f9b0653055b11b8d37b8\",\"proof\":[\"0xf147000d21d56a303b688da5bf1294d865518a8fb889af48ca21d12af5a6d823\"],\"number_of_leaves\":2,\"leaf_index\":0,\"leaf\":[0,0,0,0,0,0,0,0,1,100,50,48,50,50,45,49,48,45,48,52,84,48,53,58,48,54,58,48,55,43,48,48,58,48,48,28,97,99,116,111,114,95,48,1,0,0,0,0,0,0,0,0,0,0,20,64,82,184,30,133,235,81,200,63]}"
