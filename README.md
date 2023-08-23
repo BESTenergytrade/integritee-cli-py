@@ -87,7 +87,7 @@ $ maturin develop
 
 Here's how you can make the most of our project!
 
-### Running the Client
+### Run as Command Line Tool
 
 Test import and execution of `integritee_cli_py` in python:
 

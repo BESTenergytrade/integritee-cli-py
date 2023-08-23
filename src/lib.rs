@@ -68,25 +68,25 @@ fn new_account_cmd() -> Commands {
 fn new_trusted_account_cmd(params: &[String]) -> Commands {
     let mrenclave = &params[0];
     Commands::Trusted(TrustedCli {
-        // random mrenclave, has to be replaced with one that has been fetched from the chain.
+        // use mrenclave that has been fetched from the chain.
         mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
+        // `//Alice` is not actually the account to be created here, 
+        // but it is used as signer for the trusted call
         xt_signer: "//Alice".to_string(),
         direct: true,
         command: TrustedCommand::BaseTrusted(TrustedBaseCommand::NewAccount),
     })
 }
 
-// just a skeleton to see if the cli understands it. It will never return a successful result.
-// We need to fill in some actual meaningful values.
 fn pay_as_bid_cmd(params: &[String]) -> Commands {
     let mrenclave = &params[0];
     let account = &params[1];
     let orders_string = &params[2];
     Commands::Trusted(TrustedCli {
-        // random mrenclave, has to be replaced with one that has been fetched from the chain.
+        // use mrenclave that has been fetched from the chain.
         mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
@@ -105,7 +105,7 @@ fn get_market_results_cmd(params: &[String]) -> Commands {
     let account = &params[1];
     let timestamp = &params[2];
     Commands::Trusted(TrustedCli {
-        // random mrenclave, has to be replaced with one that has been fetched from the chain.
+        // use mrenclave that has been fetched from the chain.
         mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
@@ -127,7 +127,7 @@ fn pay_as_bid_proof_cmd(params: &[String]) -> Commands {
     let timestamp = &params[2];
     let actor_id = &params[3];
     Commands::Trusted(TrustedCli {
-        // random mrenclave, has to be replaced with one that has been fetched from the chain.
+        // use mrenclave that has been fetched from the chain.
         mrenclave: mrenclave.to_string(),
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
