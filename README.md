@@ -2,24 +2,11 @@
 
 Use `Pyo3` Lib to wrap the `integritee-cli` into a Python lib.
 
-## Table of Contents
-
-- [Getting Started](#getting-started)
-- [Prerequisites](#prerequisites)
-- [Updating Git Submodules](#updating-git-submodules)
-- [Creating and Activating venv](#creating-and-activating-venv)
-- [Managing Environment Variables](#managing-environment-variables)
-- [Installing Dependencies](#installing-dependencies)
-- [Using maturin](#using-maturin)
-- [Run as Command Line Tool](#run-as-command-line-tool)
-- [Available Commands](#available-commands)
-- [Troubleshooting](#troubleshooting)
-
-## Getting Started
+## Installation
 
 Get started with the project setup and initial configuration.
 
-## Prerequisites
+- ### Prerequisites
 
 In order to use the features, the nightly version of the compiler has
 to be setup beforehand:
@@ -28,7 +15,7 @@ to be setup beforehand:
 $ rustup override set nightly
 ```
 
-## Updating Git Submodules
+- ### Updating Git Submodules
 
 `Cargo.toml` states the relative dependencies at the `shared` folder.
 The submodules have to be initialized and updated before building:
@@ -37,7 +24,7 @@ The submodules have to be initialized and updated before building:
 $ git submodule update --init --recursive
 ```
 
-## Creating and Activating venv
+- ### Creating and Activating venv
 
 Install `integritee_cli_py` as lib into virtual environment:
 
@@ -48,7 +35,7 @@ $ source venv/bin/activate
 $ conda deactivate
 ```
 
-## Managing Environment Variables
+- ### Managing Environment Variables
 
 Please follow these steps to set up and use environment variables:
 
@@ -60,7 +47,7 @@ $ cp .env.example .env
 
 2. Open the `.env` file and provide values for the environment variables.
 
-## Installing Dependencies
+- ### Installing Dependencies
 
 Install the necessary dependencies using the provided `requirements.txt` file:
 
@@ -68,7 +55,7 @@ Install the necessary dependencies using the provided `requirements.txt` file:
 $ pip install -r requirements.txt
 ```
 
-## Using maturin
+- ### Using maturin
 
 To install the lib to your current python environment use:
 
@@ -84,11 +71,10 @@ Test import and execution of `integritee_cli_py` in python:
 $ python run_integritee_cli.py --command <COMMAND-NAME> --params <PARAMETER-NAME>
 ```
 
-## Available Commands
-
 The `integritee-cli-py` provides the following CLI commands:
 
-### Get help:
+- ### Get Help
+
 
 **Syntax:**
 
@@ -112,7 +98,7 @@ options:
                         Parameters for the command
 ```
 
-### Create a new account:
+- ### Create a new account:
 
 **Syntax:**
 
@@ -120,7 +106,7 @@ options:
 $ python3 run_integritee_cli.py --command new_account_cmd
 ```
 
-### Create a new trusted account:
+- ### Create a new trusted account:
 
 **Syntax:**
 
@@ -128,7 +114,7 @@ $ python3 run_integritee_cli.py --command new_account_cmd
 $ python3 run_integritee_cli.py --command new_trusted_account_cmd --params <MRENCLAVE>
 ```
 
-### Pay As Bid:
+- ### Pay As Bid:
 
 **Syntax:**
 
@@ -142,7 +128,7 @@ $ python3 run_integritee_cli.py --command pay_as_bid_cmd --params <MRENCLAVE> <A
 $ python3 run_integritee_cli.py --command pay_as_bid_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY "[{\"id\":0,\"order_type\":\"ask\",\"time_slot\":\"2022-10-04T05:06:07+00:00\",\"actor_id\":\"actor_0\",\"cluster_index\":0,\"energy_kwh\":5,\"price_euro_per_kwh\":0.19},{\"id\":1,\"order_type\":\"bid\",\"time_slot\":\"2022-10-04T05:06:07+00:00\",\"actor_id\":\"actor_1\",\"cluster_index\":0,\"energy_kwh\":8.8,\"price_euro_per_kwh\":0.23}]"
 ```
 
-### Get Market Results:
+- ### Get Market Results:
 
 **Syntax:**
 
@@ -156,7 +142,7 @@ $ python3 run_integritee_cli.py --command get_market_results_cmd --params <MRENC
 $ python3 run_integritee_cli.py --command get_market_results_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY 2022-10-04T05:06:07+00:00
 ```
 
-### Get Bid Proof:
+- ### Get Bid Proof:
 
 **Syntax:**
 
@@ -170,7 +156,7 @@ $ python3 run_integritee_cli.py --command pay_as_bid_proof_cmd --params <MRENCLA
 $ python3 run_integritee_cli.py --command pay_as_bid_proof_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY 2022-10-04T05:06:07+00:00 actor_0
 ```
 
-### Verify Proof:
+- ### Verify Proof:
 
 **Syntax:**
 
