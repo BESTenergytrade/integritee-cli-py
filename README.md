@@ -20,7 +20,7 @@ In order to use the features, the nightly version of the compiler has
 to be setup beforehand:
 
 ```
-$ rustup override set nightly
+rustup override set nightly
 ```
 
 Common error: **wasmtime**: error[E0463]: can't find crate for `std`
@@ -35,16 +35,16 @@ rustup target add --toolchain nightly wasm32-unknown-unknown
 The submodules have to be initialized and updated before building:
 
 ```
-$ git submodule update --init --recursive
+git submodule update --init --recursive
 ```
 
 Install `integritee_cli_py` as lib into virtual environment:
 
 ```
-$ python -m venv venv/
-$ source venv/bin/activate
+python -m venv venv/
+source venv/bin/activate
 # unset conda_prefix - if existing - for maturin to work
-$ conda deactivate
+conda deactivate
 ```
 
 ```
@@ -54,7 +54,7 @@ pip install maturin
 To install the lib to your current python environment use:
 
 ```
-$ maturin develop
+maturin develop
 ```
 
 **Usage**
@@ -65,7 +65,7 @@ in the following section.
 
 ## Run as Command Line Tool
 
-Test import and execution of `integritee_cli_py` in python:
+Test import and execution of `integritee_cli_py` with python according to following Syntax:
 
 ```
 $ python run_integritee_cli.py --command <COMMAND-NAME> --params <PARAMETER-NAME>
@@ -78,7 +78,7 @@ Please follow these steps to set up and use environment variables:
 1. Copy the `.env.example` file and rename it to `.env`:
 
 ```bash
-$ cp .env.example .env
+cp .env.example .env
 ```
 
 2. Open the `.env` file and provide values for the environment variables.
@@ -88,16 +88,16 @@ $ cp .env.example .env
 Install the necessary dependencies using the provided `requirements.txt` file:
 
 ```bash
-$ pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 
 ### Get help
 
-- Syntax:
+- Syntax and Example:
 
 ```bash
-$ python3 run_integritee_cli.py --help
+python3 run_integritee_cli.py --help
 ```
 
 - Output:
@@ -122,10 +122,10 @@ The `integritee-cli-py` provides the following CLI commands:
 
 **Create a new account:**
 
-- Syntax:
+- Syntax and Example:
 
 ```bash
-$ python3 run_integritee_cli.py --command new_account_cmd
+python3 run_integritee_cli.py --command new_account_cmd
 ```
 
 **Create a new trusted account:**
@@ -145,7 +145,7 @@ $ python3 run_integritee_cli.py --command pay_as_bid_cmd --params <MRENCLAVE> <A
 
 - Example:
 ```bash
-$ python3 run_integritee_cli.py --command pay_as_bid_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY "[{\"id\":0,\"order_type\":\"ask\",\"time_slot\":\"2022-10-04T05:06:07+00:00\",\"actor_id\":\"actor_0\",\"cluster_index\":0,\"energy_kwh\":5,\"price_euro_per_kwh\":0.19},{\"id\":1,\"order_type\":\"bid\",\"time_slot\":\"2022-10-04T05:06:07+00:00\",\"actor_id\":\"actor_1\",\"cluster_index\":0,\"energy_kwh\":8.8,\"price_euro_per_kwh\":0.23}]"
+python3 run_integritee_cli.py --command pay_as_bid_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY "[{\"id\":0,\"order_type\":\"ask\",\"time_slot\":\"2022-10-04T05:06:07+00:00\",\"actor_id\":\"actor_0\",\"cluster_index\":0,\"energy_kwh\":5,\"price_euro_per_kwh\":0.19},{\"id\":1,\"order_type\":\"bid\",\"time_slot\":\"2022-10-04T05:06:07+00:00\",\"actor_id\":\"actor_1\",\"cluster_index\":0,\"energy_kwh\":8.8,\"price_euro_per_kwh\":0.23}]"
 ```
 
 **Get Market Results:**
@@ -159,7 +159,7 @@ $ python3 run_integritee_cli.py --command get_market_results_cmd --params <MRENC
 - Example:
 
 ```bash
-$ python3 run_integritee_cli.py --command get_market_results_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY 2022-10-04T05:06:07+00:00
+python3 run_integritee_cli.py --command get_market_results_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY 2022-10-04T05:06:07+00:00
 ```
 
 **Get Bid Proof:**
@@ -173,7 +173,7 @@ $ python3 run_integritee_cli.py --command pay_as_bid_proof_cmd --params <MRENCLA
 - Example:
 
 ```bash
-$ python3 run_integritee_cli.py --command pay_as_bid_proof_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY 2022-10-04T05:06:07+00:00 actor_0
+python3 run_integritee_cli.py --command pay_as_bid_proof_cmd --params 9PPeGELLdD9Uw1mVJbUGTeRpGzPBGb1bdEk6TCL4pPCE 5Dsni69ozXZZwpxyCGjLq8KQnBpGrtPnbykepgst2Tbh7NuY 2022-10-04T05:06:07+00:00 actor_0
 ```
 
 **Verify Proof:**
