@@ -45,16 +45,6 @@ fn run_cli(
         command: find_command(&command_name, &params),
     };
 
-    match command_name.as_str() {
-        "new_account_cmd" => new_account_cmd(),
-        "new_trusted_account_cmd" => new_trusted_account_cmd(&params),
-        "pay_as_bid_cmd" => pay_as_bid_cmd(&params),
-        "get_market_results_cmd" => get_market_results_cmd(&params),
-        "pay_as_bid_proof_cmd" => pay_as_bid_proof_cmd(&params),
-        "verify_proof_cmd" => verify_proof_cmd(&params),
-        _ => panic!("Invalid command name"),
-    };
-
     commands::match_command(&cli).unwrap();
     Ok(())
 }
@@ -73,7 +63,7 @@ fn new_trusted_account_cmd(params: &[String]) -> Commands {
         shard: None,
         // signers and accounts starting with `//` will be recognized as dev-seeds and can
         // always be used without first creating them in the keystore.
-        // `//Alice` is not actually the account to be created here, 
+        // `//Alice` is not actually the account to be created here,
         // but it is used as signer for the trusted call
         xt_signer: "//Alice".to_string(),
         direct: true,
