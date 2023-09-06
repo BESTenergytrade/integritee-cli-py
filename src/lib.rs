@@ -1,5 +1,9 @@
+use pyo3::exceptions;
 use pyo3::prelude::*;
+use pyo3::types::PyDict;
+use pyo3::types::PyList;
 use pyo3::wrap_pyfunction;
+use pyo3::PyResult;
 
 // Import the RPC client
 // use clap::Parser;
@@ -8,6 +12,7 @@ use integritee_cli::trusted_cli::{
     GetMarketResultsCommand, PayAsBidCommand, PayAsBidProofCommand, TrustedBaseCommand,
     TrustedCommand, VerifyMerkleProofCommand,
 };
+use integritee_cli::CliResultOk;
 use integritee_cli::{commands, trusted_cli::TrustedCli, Cli};
 
 #[pymodule]
@@ -36,7 +41,8 @@ fn run_cli(
     trusted_worker_port: String,
     command_name: String,
     params: Vec<String>,
-) -> PyResult<()> {
+    py: Python,
+) -> PyResult<Py<PyDict>> {
     let cli = Cli {
         node_url,
         node_port,
@@ -45,8 +51,54 @@ fn run_cli(
         command: find_command(&command_name, &params),
     };
 
-    commands::match_command(&cli).unwrap();
-    Ok(())
+    let cmd_output = commands::match_command(&cli);
+
+    match cmd_output {
+        Ok(output) => match output {
+            CliResultOk::Matches(matches) => {
+                let matches_dict = PyDict::new(py);
+
+                let matches_list = PyList::new(
+                    py,
+                    matches.matches.into_iter().map(|mtch| {
+                        let dict = PyDict::new(py);
+                        let _ = dict.set_item("time", mtch.energy_kwh);
+                        let _ = dict.set_item("bid_id", mtch.bid_id);
+                        let _ = dict.set_item("ask_id", mtch.ask_id);
+                        let _ = dict.set_item("bid_actor", "");
+                        let _ = dict.set_item("ask_actor", "");
+                        let _ = dict.set_item("bid_cluster", 0);
+                        let _ = dict.set_item("ask_cluster", 0);
+                        let _ = dict.set_item("energy", mtch.energy_kwh);
+                        let _ = dict.set_item("price", mtch.price_euro_per_kwh);
+                        let _ = dict.set_item("included_grid_fee", 0);
+                        dict
+                    }),
+                );
+
+                matches_dict.set_item("matches", matches_list)?;
+                Ok(matches_dict.into())
+            }
+            _ => {
+                let error_message = "An unexpected error occurred.";
+
+                let gil = Python::acquire_gil();
+                let py = gil.python();
+                let py_err = PyErr::new::<exceptions::PyException, _>(error_message);
+
+                Err(py_err)
+            }
+        },
+        Err(cli_error) => {
+            let error_message = format!("An error occurred: {:?}", cli_error);
+
+            let gil = Python::acquire_gil();
+            let py = gil.python();
+            let py_err = PyErr::new::<exceptions::PyException, _>(error_message);
+
+            Err(py_err)
+        }
+    }
 }
 
 /// Create a new account
