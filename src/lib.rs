@@ -79,13 +79,33 @@ fn run_cli(
                 matches_dict.set_item("matches", matches_list)?;
                 Ok(matches_dict.into())
             }
+
+            CliResultOk::PubKeysBase58 {
+                pubkeys_sr25519,
+                pubkeys_ed25519,
+            } => {
+                let public_keys_dict = PyDict::new(py);
+
+                match pubkeys_sr25519 {
+                    Some(values) => {
+                        if values.len() == 1 {
+                            public_keys_dict.set_item("trusted_account", values[0].as_str())?;
+                        } else {
+                            let keys_list = PyList::new(py, values);
+                            public_keys_dict.set_item("trusted_account", keys_list)?;
+                        }
+                    }
+                    None => {
+                        public_keys_dict.set_item("trusted_account", None::<&str>)?;
+                    }
+                }
+
+                Ok(public_keys_dict.into())
+            }
+
             _ => {
                 let error_message = "An unexpected error occurred.";
-
-                let gil = Python::acquire_gil();
-                let py = gil.python();
                 let py_err = PyErr::new::<exceptions::PyException, _>(error_message);
-
                 Err(py_err)
             }
         },
