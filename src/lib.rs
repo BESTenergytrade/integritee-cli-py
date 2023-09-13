@@ -111,11 +111,7 @@ fn run_cli(
         },
         Err(cli_error) => {
             let error_message = format!("An error occurred: {:?}", cli_error);
-
-            let gil = Python::acquire_gil();
-            let py = gil.python();
             let py_err = PyErr::new::<exceptions::PyException, _>(error_message);
-
             Err(py_err)
         }
     }
