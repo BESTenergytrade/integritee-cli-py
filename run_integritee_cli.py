@@ -74,8 +74,9 @@ if __name__ == "__main__":
     try:
         command_name = args.command
         params = args.params
-        integritee_cli_py.run_cli(
+        result = integritee_cli_py.run_cli(
             NODE_URL, NODE_PORT, WORKER_URL, TRUSTED_WORKER_PORT, command_name, params
         )
+        print(result)
     except Exception as e:
         print("Encountered an error:", e)
