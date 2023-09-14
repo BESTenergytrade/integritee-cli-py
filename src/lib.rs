@@ -102,6 +102,18 @@ fn run_cli(
 
                 Ok(public_keys_dict.into())
             }
+            
+            CliResultOk::PayAsBidOutput(res) => match res {
+                Some(vec) => {
+                    let dict = PyDict::new(py);
+                    let _ = dict.set_item("pay_as_bid_output", vec);
+                    Ok(dict.into())
+                }
+                None => {
+                    let py_dict = PyDict::new(py);
+                    Ok(py_dict.into())
+                }
+            },
 
             _ => {
                 let error_message = "An unexpected error occurred.";
