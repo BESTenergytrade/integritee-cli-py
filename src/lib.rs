@@ -102,7 +102,7 @@ fn run_cli(
 
                 Ok(public_keys_dict.into())
             }
-            
+
             CliResultOk::PayAsBidOutput(res) => match res {
                 Some(vec) => {
                     let dict = PyDict::new(py);
@@ -114,6 +114,16 @@ fn run_cli(
                     Ok(py_dict.into())
                 }
             },
+
+            CliResultOk::PayAsBidProofOutput(res) => {
+                let dict = PyDict::new(py);
+
+                println!("{:?}", res);
+
+                dict.set_item("output", {}).unwrap();
+
+                Ok(dict.into())
+            }
 
             _ => {
                 let error_message = "An unexpected error occurred.";
