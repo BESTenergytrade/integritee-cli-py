@@ -1,7 +1,7 @@
 [submodule "shared/BEST-Energy"]
 	path = shared/BEST-Energy
 	url = git@github.com:olisystems/BEST-Energy.git
-	branch = my/worker-return-values
+	branch = my/return-error
 [submodule "shared/incubator-teaclave-sgx-sdk"]
 	path = shared/incubator-teaclave-sgx-sdk
 	url = git@github.com:Interstellar-Network/incubator-teaclave-sgx-sdk.git
