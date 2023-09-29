@@ -110,6 +110,7 @@ fn run_cli(
                     Ok(dict.into())
                 }
                 None => {
+                    println!("Python client None block");
                     let py_dict = PyDict::new(py);
                     Ok(py_dict.into())
                 }
