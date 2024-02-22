@@ -1,10 +1,10 @@
 [package]
 name = "integritee_cli_py"
-version = "0.0.1"
+version = "0.1.0"
 edition = "2018"
 
 [dependencies]
-pyo3 = { version = "0.15", features = ["extension-module"] }
+pyo3 = { version = "0.20", features = ["extension-module"] }
 integritee-cli = { path = "./shared/BEST-Energy/cli" }
 # if `Cli::Parse` should be used, the major version needs to match the
 # BEST-Energy workers CLI otherwise it can't match the traits.

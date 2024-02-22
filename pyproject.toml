@@ -4,7 +4,7 @@ build-backend = "maturin"
 
 [project]
 name = "integritee_cli_py"
-version = "0.0.1"
+version = "0.1.0"
 description = "Python wrapper for the Integritee RPC client"
 readme = "README.md"
 license = "MIT"
